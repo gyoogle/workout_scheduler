@@ -1,6 +1,8 @@
 package com.workout.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.workout.api.entity.common.CommonDateEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,10 +21,11 @@ import java.util.stream.Collectors;
 @NoArgsConstructor // 인자없는 생성자를 자동으로 생성
 @AllArgsConstructor // 인자를 모두 갖춘 생성자를 자동으로 생성
 @Table(name = "user") // 'user' 테이블과 매핑됨을 명시
-public class User implements UserDetails {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class User extends CommonDateEntity implements UserDetails {
     @Id // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long uid;
+    private Long uid;
     @Column(nullable = false, unique = true, length = 50)
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
